@@ -1,0 +1,20 @@
+# Result Declarartion
+clear
+echo "Enter number: "
+read n
+if [ $n -gt 100 ]
+then
+  echo "The Entered Number is Wrong... Try Again!!!"
+  exit
+fi
+
+num=`expr $n / 10`
+case $num in
+5)echo "C";;
+6)echo "B";;
+7)echo "A";;
+8)echo "E";;
+9)echo "O";;
+10)echo "O";;
+*)echo "F";;
+esac

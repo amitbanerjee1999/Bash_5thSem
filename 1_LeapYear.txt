@@ -1,0 +1,16 @@
+# Leap Year
+clear
+echo "Enter a number: "
+read x
+if [ `expr $x % 400` -eq 0 ]
+then
+  echo "$x is a leap year"
+elif [ `expr $x % 100` -eq 0 ]
+then
+  echo "$x is not a leap year"
+elif [ `expr $x % 4` -eq 0 ] 
+then
+  echo "$x is a leap year"
+else
+  echo "$x is not a leap year"
+fi

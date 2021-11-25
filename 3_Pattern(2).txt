@@ -1,0 +1,18 @@
+# pattern
+echo "Enter the row number: "
+read x
+for (( i=$x ; i>=1 ; i--))
+do
+  for(( k=`expr $x - $i` ; k>0 ; k-- ))
+  do
+    echo -n " "
+  done
+
+  for(( j=1 ; j<=$i ; j++ ))
+    do
+      echo -n "* "
+    done
+  echo ""
+done
+
+# "-n" is used for not occuring the new line.

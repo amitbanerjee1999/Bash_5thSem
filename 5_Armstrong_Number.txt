@@ -1,0 +1,26 @@
+# Armstrong Number
+echo "Enter a number: "
+read num
+x=$num
+y=$num
+c=0
+sum=0
+rem=0
+n=0
+while [ $y -ne 0 ]
+do
+  c=`expr $c + 1`
+  y=`expr $y / 10`
+done
+while [ $x -ne 0 ]
+do
+rem=`expr $x % 10`
+sum=`expr $sum + $[$rem**$c]`
+x=`expr $x / 10`
+done
+if [ $sum -eq $num ]
+then
+echo "It is an Armstrong Number."
+else
+echo "It is not an Armstrong Number."
+fi
