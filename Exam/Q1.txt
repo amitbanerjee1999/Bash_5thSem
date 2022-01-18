@@ -1,0 +1,68 @@
+1. a) Write a shell script to find the GCD of a set of numbers. (size of the set and numbers will be
+provided as command line argument)
+
+
+clear
+i=0
+
+A=("$@")
+n=$#
+
+<<com
+echo "enter the elements"
+for ((i=0;i<n;i++))
+do
+	read A[$i]
+done
+com
+
+prev=${A[0]}
+next=${A[1]}
+for ((i=1;i<=n;i++));do
+	temp1=$prev
+	temp2=$next
+	#find the GCD
+	while [ $prev -ne $next ];do
+		if [ $prev -gt $next ];then
+		prev=`expr $prev - $next`
+		else
+		next=`expr $next - $prev`
+		fi
+	done
+	gcd=$prev
+done
+echo "GCD : $gcd"
+
+b) Write a shell script to find total no. of words, characters, lines in the given file supplied as
+command arguments and check whether the file is regular or not
+
+
+clear
+if [ $# -eq 1 ]
+then
+	file=$1
+	echo -n `wc -l <$file` lines" "
+	echo -n `wc -w <$file` words" "
+	echo -n -e `wc -c <$file` characters"\n"
+	if [ -f $file ]
+	then
+		echo "Regular File"
+	else
+		echo "Not a Regular File"
+	fi
+fi
+
+
+
+for i in $*
+do
+    if [ -f $i ]; then
+		  echo "$i is a regular file"
+		  echo "Lines: $(cat $i | wc -l)"
+		  echo "Words: $(cat $i | wc -w)"
+		  echo "Chars: $(cat $i | wc -m)"
+    else
+      echo "$i is not regular"
+    fi
+done
+

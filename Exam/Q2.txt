@@ -1,0 +1,83 @@
+2. a) Write a shell script to find out palindrome numbers of a list (size of the list and numbers
+will be provided as command line argument)
+
+clear
+checkPalindrome(){
+  n=$1
+  rev=0
+  temp=$n
+  while [ $n -gt 0 ]; do
+	  rem=`expr $n % 10`
+    rev=`expr $rev \* 10 + $rem`
+	  n=`expr $n / 10`
+  done
+  if [ $temp -eq $rev ]; then
+    echo 0
+  else 
+    echo 1
+  fi
+}
+extractPalindrome(){
+  size=$1; arr=("${@: 2}")
+  for (( i=0;i<size;i++ )); do
+    isPalindrome=`checkPalindrome ${arr[i]}`;
+    if [ $isPalindrome -eq 0 ]; then
+      echo -n "${arr[i]} "
+    fi
+  done
+  echo
+}
+argCount=$1
+tempVal=`expr $argCount + 1`
+if [ "$#" -eq 0 ]; then
+  echo No Argument Specified
+elif [ "$#" -le "$1" ]; then
+  echo Not All Arguments are Specified
+elif [ "$#" -gt $tempVal ]; then
+  echo Unnecessary Arguments are Specified
+else
+  echo -n "The palindrome numbers are : "
+  extractPalindrome $@
+fi
+
+b) A file contains day_name & temperature for some days. Write a shell script which takes that
+file name as command line argument. Then it reads day_name & temperature from that file and
+broadcast the weather as follows. Store the weather report in a file.
+Temperature Weather
+<15 Very cold
+>=15 && <25 Cold
+>=25 && <35 Hot
+>=35 Very hot
+
+clear
+file1=$1
+echo DAY TEMP WEATHER >> out2
+echo =================== >> out2
+if [ -f $file1 ]
+then
+  exec<$file1
+  while read line 
+  do
+    set `echo $line`
+      echo -n $1 " " $2 " " >> out2
+    if [ $2 -lt 15 ]
+      then
+        echo VERY COLD >> out2
+    elif [ $2 -lt 25 ]
+      then
+        echo COLD >> out2
+    elif [ $2 -lt 35 ]
+      then
+        echo HOT >> out2
+    else  
+      echo VERY HOT >> out2
+    fi
+  done
+fi
+cat out2
+rm out2
+
+1 35
+2 20
+3 15
+4 45

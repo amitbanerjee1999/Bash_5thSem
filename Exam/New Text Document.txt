@@ -1,0 +1,56 @@
+16. a) Write a shell script which receives any number of filenames and directory names as command
+line argument. The shell script should check whether every argument supplies are a file or a
+directory.
+i) If it is a directory then it should be appropriately reported.
+ii) If it is a file name then display the content the file as well as the no. of characters, words and
+lines presents in it should be reported.
+iii) Check the file permission of that file and change it for different users.
+
+clear
+for arg in "$@"; do
+  input=$arg
+  if [ -f $input ];then
+    echo "Content is:"
+    cat $input
+    echo
+    echo "Number of characters:"
+    wc -m $input
+    echo "Number of words:"
+    wc -w $input
+    echo "Number of lines:"
+    wc -l $input
+    if [ -r $input ];then
+      echo "$input has read permission for currently logged in user"
+    elif [ -w $input ];then
+      echo "$input has a write permission for currently logged in user"
+    elif [ -x $input ];then
+      echo "$input has execute permission for currently logged in user"
+    fi
+    chmod u=rw,g=r,o=r $input
+  else
+    echo "$input is directory"
+  fi
+done
+
+b) Write a shell script to collect n number of years from command line argument and calculates
+which years are leap years.
+
+clear
+for arg in "$@";do
+  y=$arg
+  y1=`expr $y % 4`
+  y2=`expr $y % 100`
+  y3=`expr $y % 400`
+  if [ $y3 == 0 ]
+  then 
+    echo "$y is leap year"
+  elif [ $y2 == 0 ]
+    then 
+      echo "$y is not leap year"
+  elif [ $y1 == 0 ]
+  then 
+    echo "$y is leap year"
+  else
+    echo "$y is not leap year"
+  fi
+done

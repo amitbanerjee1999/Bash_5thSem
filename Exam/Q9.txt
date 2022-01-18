@@ -1,0 +1,70 @@
+9. a) Write a shell script to draw the following circle where radius is provided by user.
+
+
+clear
+echo "Enter the radius"
+read r
+tput clear
+
+for((i=1;i<=360;i+=2))
+do
+	a=`echo "scale=3;3.14/180*$i"|bc|awk '{print cos($1)}'`
+	x=`echo "scale=3;$r*$a"|bc|awk '{print int($1)}'`
+	b=`echo "scale=3;3.14/180*$i"|bc|awk '{print sin($1)}'`
+	y=`echo "scale=3;$r*$b"|bc|awk '{print int($1)}'`
+
+	q=`expr $x + 35`
+	p=`expr 10 - $y`
+	tput cup $p $q
+	echo "*"
+done
+
+tput cup $(tput lines) 0
+
+b) Write a shell script to determine the Grade as per WBUT rule. Students name, roll no and
+marks are taken from an input file and output will store as student name , roll no, marks and
+grade format in a file.( using switch-case)
+
+file1=$1
+# echo $file1
+echo "The Input is: "
+cat $file1
+
+echo "Roll  Name  Marks Grade">>ans1
+echo "============================">>ans1
+if [ -f $file1 ]
+then
+  exec<$file1
+  while read line
+  do
+    set `echo $line`
+    echo -n $1 "  " $2 "  " $3 "  ">> ans1
+    if [ $3 -ge 90 ] && [ $3 -le 100 ]
+    then
+      echo -e O >> ans1
+    elif [ $3 -ge 80 ]
+    then
+      echo E >> ans1
+    elif [ $3 -ge 70 ]
+    then
+      echo A >> ans1
+    elif [ $3 -ge 60 ]
+    then
+      echo B >> ans1
+    elif [ $3 -ge 50 ]
+    then
+      echo C >> ans1
+    elif [ $3 -ge 40 ]
+    then
+      echo D >> ans1
+    else
+      echo Fail >> ans1
+    fi
+  done
+fi
+cat ans1
+rm ans1
+
+1 asd 60
+2 ert 70
+3 jkm 20

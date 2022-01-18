@@ -1,0 +1,65 @@
+15. a) Write a shell script which receives any number of filenames as argument. The shell script
+should check whether every argument supplies are a file or a directory.
+i) If it is a directory then it should be appropriately reported.
+ii) if it is a file name then name of the file as well as the no. of lines present in it should be
+reported.
+iii) Check the file permission for you. If you have no write permission then gives the write
+permission.
+
+
+if [ $# -eq 0 ]; then
+	echo "No arguments specified"
+	exit
+fi
+for i in $*
+do
+	if [ -f $i ]; then
+		echo "$i is  a file"
+		echo "Lines: $(cat $i | wc -l)"
+		echo "Words: $(cat $i | wc -w)"
+		echo "Chars: $(cat $i | wc -c)"
+
+		if [ ! -w $i ]; then
+			chmod "g-w" $i
+			chmod "o-w" $i
+		elif [ ! -x $i ]; then
+			chmod "g+x" $i
+			chmod "o+x" $i
+		else
+			ls -l $i | cut -d ' ' -f1
+		fi
+	else
+		echo "$i is a directory"
+    a=`dir $i`
+    echo $a
+	fi
+done
+
+b) Write a shell script, which shows all the prime numbers between a lower and upper range
+
+
+low=1
+count=0
+
+while [ $low -eq 1 ]
+do
+echo "Enter the lower limit,greater than 1"
+read low
+done
+
+echo "Enter the upper limit"
+read upper
+
+
+for mun in `seq $low $upper`
+do
+ret=$(factor $mun | grep $mun | cut -d ":" -f 2 | cut -d " " -f 2)
+
+if [ "$ret" -eq "$mun" ] 
+then 
+echo "$mun is prime" 
+((count++))
+fi 
+done
+
+echo -e "\n There are $count number of prime numbers"

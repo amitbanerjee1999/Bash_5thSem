@@ -1,0 +1,27 @@
+8. a) Write a shell script to draw the figure where line number is provided by user.
+b) Write a shell script to take two directories as a input and check which directory has the highest
+number of files.
+
+
+clear
+if [ $# -eq 2 ]
+then
+	if [ -d $1 -a -d $2 ]
+	then
+		dir1=`ls $1 -p | grep -v / | wc -l`
+		dir2=`ls $2 -p | grep -v / | wc -l`
+		if [ $dir1 -gt $dir2 ]
+		then
+			echo $1 has more files : $dir1
+		elif [ $dir2 -gt $dir1 ]
+		then
+			echo $2 has more files : $dir2
+		else
+			echo Both $1 and $2 has same number of files : $dir1
+		fi
+	else
+		echo "Not valid Inputs"
+	fi
+else
+	echo "Not valid Inputs"
+fi

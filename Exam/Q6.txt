@@ -1,0 +1,78 @@
+6. a) Write a Shell Script to collect n numbers from command line argument and check which are
+Armstrong numbers. 153=1d+5d+3d, where d is number of digit.
+
+clear
+checkArmstrong(){
+  num=$1
+  x=$num; y=$num
+  while [ $y -ne 0 ]; do
+    y=`expr $y / 10`
+    count=`expr $count + 1`
+  done
+  while [ $x -ne 0 ]; do
+    rem=`expr $x % 10`
+    sum=`expr $sum + $[$rem**$count]`
+    x=`expr $x / 10`
+  done
+  if [ $sum -eq $num ]; then
+    echo 0
+  else
+    echo 1
+  fi
+  count=0; sum=0
+}
+extractArmstrong(){
+  size=$#; arr=("$@")
+  for (( i=0;i<size;i++ )); do
+    isArmstrong=`checkArmstrong ${arr[i]}`;
+    if [ $isArmstrong -eq 0 ]; then
+      echo -n "${arr[i]} "
+    fi
+  done
+  echo
+}
+if [ "$#" -eq 0 ]; then
+  echo No Argument Specified
+else
+  echo -n "The Armstrong numbers are : "
+  extractArmstrong $@
+fi
+
+b) Write a shell script to take student records (Roll, Name, Marks) as a input file and update the
+marks of a student according to the user choice.
+
+clear
+updateVal(){
+  read -p "Enter the roll no.:" rNum
+  read -p "Enter the updated marks:" upVal
+  x=`wc -l<StudentDetail.txt`
+  for(( i=2;i<=x;i++ ));do
+    y=`head -n $i StudentDetail.txt | tail -n 1 | cut -d \| -f 1`
+    if [ $rNum == $y ]
+    then
+      val=`head -n $i StudentDetail.txt | tail -n 1 | cut -d \| -f 1,2`
+      rm temp.txt
+      head -n $(($i - 1)) StudentDetail.txt >> temp.txt
+      echo "$val|$upVal" >> temp.txt
+      tail -n $(($x - $i)) StudentDetail.txt >> temp.txt
+      rm StudentDetail.txt
+      cat temp.txt>StudentDetail.txt
+      break
+    fi
+  done
+}
+for(( ;; )); do
+echo "1.Display student details
+2.Update marks value
+3.Exit"
+read -p "Enter your choice: " n
+case $n in
+1)echo "Displaying all student record..."
+  cat StudentDetail.txt
+  echo;;
+2)echo "Enter the following details to update a student record..."
+  updateVal;;
+3)exit;;
+*)echo "NotAValidChoice"
+esac
+done

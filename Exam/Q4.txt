@@ -1,0 +1,41 @@
+4. a) Write a shell script for the following menu driven program
+i) Show today’s date( e.g 11-Mar 2015) and time iii) Show calendar for current year
+ii) Show files in current directory with their permissions. iv) Exit
+
+clear
+for((;;))
+do
+  echo "----------------------------------------------------"
+  echo "1. Today’s date and time"
+  echo "2. Show files in Present working directory and files under current directory with permissions"
+  echo "3. Display the calendar for current year"
+  echo "4. Exit"
+  echo "---------------------------------------------------"
+  echo "Enter your choice: "
+  read x
+  case $x in
+  1) date
+    ;;
+  2) pwd && ls;;
+  3) cal -y
+    ;; 
+  4) exit;;
+  *) echo -e "Wrong Input\n"
+  esac
+done
+
+b) Write a shell script to display the first n numbers of the Fibonacci series .i.e. 0 1 1 2 3 5 8 13.
+
+# Fibanacci Series
+echo "Enter number you want to Enter: "
+read n
+x=0
+y=1
+for (( i=1 ; i<=$n ; i++ ))
+do
+  echo -n "$x "
+    z=`expr $x + $y`
+    x=$y
+    y=$z
+  echo ""   #it is used for newline
+done

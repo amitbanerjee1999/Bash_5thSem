@@ -1,0 +1,80 @@
+10. a) Write a shell script to draw a triangle where number of lines of the triangle is provided by user
+to the command line argument.
+
+
+
+cols=`tput cols`
+start=$((cols/2))
+
+rows=$@
+tput clear
+for((i=0;i<rows;i++))
+do 
+cols=$((start-i))
+tput cup $i $cols
+
+for((j=0;j<=i;j++))
+do
+
+if [ $i -eq $((rows-1)) ]
+then
+printf "* "
+
+elif [ $j -eq 0 ]
+then
+	printf "* "
+else
+
+	if [ $j -eq $i ]
+	then
+		printf "* "
+	else
+	printf "  "
+	fi 
+
+fi
+
+done
+done
+echo""
+
+b) Write a shell script to find the LCM of a set of numbers. (size of the set and numbers will
+be provided as command line argument)
+
+
+clear
+gcd()
+{
+	a=$1 ; b=$2
+	if [ $(($1 % $2)) -eq 0 ] 
+	then
+		echo $2
+	else
+		gcd $2 $(($1 % $2))
+	fi
+}
+
+lcm()
+{
+	a=$1 ; b=$2
+	hcf=$(gcd $a $b)
+	pro=$(($a*$b))
+	echo $(($pro/$hcf))
+}
+
+if [ $# -eq 0 ] 
+then
+	echo "No Numbers"
+elif [ $# -eq 1 ] 
+then
+	echo "Single Number"
+else
+	res1=$1 ; res2=$1
+	for i in "$@"
+	do
+		res1=$(gcd $res1 $i)
+		res2=$(lcm $res2 $i)
+	done
+	echo "GCD is : " $res1
+	echo "LCM is : " $res2
+fi

@@ -1,0 +1,45 @@
+14. a) Write a shell script to calculate the Pay-slip of each employee assuming
+D.A=45% of Basic pay, H.R.A=15% of Basic pay, P.F=10% of Basic pay
+Basic pay is given by user. Store Pay slip in a file with fields…
+Basic pay D.A H.R.A P.F Gross salary
+
+clear
+rm paySlip.txt
+echo "Enter basic pay of employees"
+read -a arr
+echo "Basic pay| D.A |    H.R.A   | P.F | Gross salary" >> paySlip.txt
+echo "~~~|~-|-~~~-|-~-|-~~~~~" >> paySlip.txt
+for basicPay in "${arr[@]}"
+do
+	da=`echo "scale=3;45/100*$basicPay"|bc`
+	hra=`echo "scale=3;15/100*$basicPay"|bc`
+	pf=`echo "scale=3;10/100*$basicPay"|bc`
+	gross=`echo $da+$hra+$pf+$basicPay | bc`
+	echo " "$basicPay"  -  "$da"  -  "$hra"-  "$pf" -  "$gross" -  ">> paySlip.txt
+done
+
+b) Write a shell script where you enter birthday in dd/mm/yyyy format. Your age is calculated in
+years, months & days.
+
+
+clear
+read -p "Enter your Date of Birth(DD/MM/YYYY): " dob
+dTemp=$(date +%d)
+mTemp=$(date +%m)
+yTemp=$(date +%Y)
+temp=`expr $mTemp - 1`
+countDays=$(date -d "`expr $temp % 12 + 1`/1 - 1 days" +%d)
+if [ ${dob:0:2} -gt $dTemp ]
+then
+  dTemp=`expr $dTemp + $countDays`
+  mTemp=`expr $mTemp - 1`
+fi
+if [ ${dob:3:2} -gt $mTemp ]
+then
+  yTemp=`expr $yTemp - 1`
+  mTemp=`expr $mTemp + 12`
+fi
+y=`expr $yTemp - ${dob:6:4}`
+m=`expr $mTemp - ${dob:3:2}`
+d=`expr $dTemp - ${dob:0:2}`
+echo "Your age is: $y years $m months and $d days"
