@@ -1,0 +1,280 @@
+ASSIGNMENT-04
+
+8. Write a shell script to calculate your Age in years months & days format.
+(Given i/p in this format: DD/MM/YYYY your date of birth.)
+
+clear
+read -p "Enter your Date of Birth(DD/MM/YYYY): " dob
+dTemp=$(date +%d)
+mTemp=$(date +%m)
+yTemp=$(date +%Y)
+temp=`expr $mTemp - 1`
+countDays=$(date -d "`expr $temp % 12 + 1`/1 - 1 days" +%d)
+if [ ${dob:0:2} -gt $dTemp ]
+then
+  dTemp=`expr $dTemp + $countDays`
+  mTemp=`expr $mTemp - 1`
+fi
+if [ ${dob:3:2} -gt $mTemp ]
+then
+  yTemp=`expr $yTemp - 1`
+  mTemp=`expr $mTemp + 12`
+fi
+y=`expr $yTemp - ${dob:6:4}`
+m=`expr $mTemp - ${dob:3:2}`
+d=`expr $dTemp - ${dob:0:2}`
+echo "Your age is: $y years $m months and $d days"
+
+9. Write a shell script to check a given date is valid or not.
+
+clear
+read -p "Enter a date(DD/MM/YYYY): " D
+d=${D:0:2}
+m=${D:3:2}
+Y=${D:6:4}
+if date -d "$Y-$m-$d" &> /dev/null
+then
+ echo $D is a valid date
+else 
+  echo $D is an invalid date
+fi
+
+10.Write a shell script to sort an int array using bubble sort.
+
+# Bubble Sort
+echo "Enter number: "
+read n
+echo "Enter the elements: "
+for(( i=0;i<n;i++ ))
+do
+  read a[i]
+done
+
+echo "Unsorted List is:"
+echo  "${a[@]} "
+
+echo "Sorted List is: "
+for(( i=0;i<n;i++ ))
+do
+  k=`expr $n-$i-1`
+  for(( j=0;j<k;j++ ))
+  do
+    if [ ${a[j]} -gt ${a[$((j+1))]} ]
+    then
+      temp=${a[j]}
+      a[$j]=${a[$((j+1))]}  
+      a[$((j+1))]=$temp
+    fi
+  done
+done
+
+echo  "${a[@]}"
+
+11.Write a shell script to determine the Grade of students as per WBUT rule.
+Students name, roll no and marks are taken from an input file and output will
+store as student name, roll no, marks and grade format in a file.
+
+clear
+
+insert()
+{
+	echo -e "Enter Roll,name,Marks\n"
+	read roll name marks
+	echo "$roll|$name|$marks">>student.txt
+}
+
+delete()
+{
+	echo "Enter the roll number"
+	read roll
+	x=`wc -l<student.txt`
+	for((i=2;i<=x;i++))
+	do
+		y=`head -n $i student.txt | tail -n 1 | cut -d \| -f 1`
+		if [ $roll == $y ]
+		then
+			break
+		fi
+	done
+	rm temp.txt
+	head -n $(($i - 1)) student.txt >> temp.txt
+	tail -n $(($x - $i)) student.txt >> temp.txt
+	rm student.txt
+	cat temp.txt>student.txt
+}
+
+update()
+{
+	echo "Enter the Roll Number: "
+	read roll
+	echo "Enter the new marks: "
+	read data
+	x=`wc -l<student.txt`
+	for((i=2;i<=x;i++))
+	do
+		y=`head -n $i student.txt | tail -n 1 | cut -d \| -f 1`
+		if [ $roll == $y ]
+		then
+			val=`head -n $i student.txt | tail -n 1 | cut -d \| -f 1,2`
+			rm temp.txt
+			head -n $(($i - 1)) student.txt >> temp.txt
+			echo "$val|$data">>temp.txt
+			tail -n $(($x - $i)) student.txt >> temp.txt
+			rm student.txt
+			cat temp.txt>student.txt
+			break
+		fi
+	done
+}
+
+display()
+{
+	cat student.txt
+	echo -e "--------------------------\n\n"
+}
+
+
+for((;;)) do
+echo -e "1.Insert\n2.Delete\n3.Update\n4.Display\n5.Exit".
+read n
+
+case $n in
+1) insert ;;
+2) delete ;;
+3) update ;;
+4) display ;;
+5) exit ;;
+*) echo -e "not found\n"
+esac
+done
+
+
+or
+
+clear
+file1=$1
+echo "Roll Name Marks Grade" >> out1
+echo "=====================" >> out1
+if [ -f $file1 ]
+then
+  exec<$file1
+  while read line 
+  do
+    set ` echo $line `
+    echo -n  $1 "  " $2 " " $3 "   " >> out1
+    if [ $3 -ge 90 ]
+    then
+      echo -e O >> out1
+    elif [ $3 -ge 80 ]
+    then
+      echo -e E >> out1
+    elif [ $3 -ge 70 ]
+    then
+      echo -e A >> out1
+    elif [ $3 -ge 60]
+    then
+      echo -e B >> out1
+    elif [ $3 -ge 50 ]
+    then 
+      echo -e C >> out1
+    elif [ $3 -ge 40 ]
+    then
+      echo -e D >> out1
+    else
+      echo -e Fail >> out1
+    fi
+  done
+fi
+cat out1
+
+or MINE
+
+file1=$1
+# echo $file1
+echo "The Input is: "
+cat $file1
+
+echo "Roll  Name  Marks Grade">>ans1
+echo "============================">>ans1
+if [ -f $file1 ]
+then
+  exec<$file1
+  while read line
+  do
+    set `echo $line`
+    echo -n $1 "  " $2 "  " $3 "  ">> ans1
+    if [ $3 -ge 90 ] && [ $3 -le 100 ]
+    then
+      echo -e O >> ans1
+    elif [ $3 -ge 80 ]
+    then
+      echo E >> ans1
+    elif [ $3 -ge 70 ]
+    then
+      echo A >> ans1
+    elif [ $3 -ge 60 ]
+    then
+      echo B >> ans1
+    elif [ $3 -ge 50 ]
+    then
+      echo C >> ans1
+    elif [ $3 -ge 40 ]
+    then
+      echo D >> ans1
+    else
+      echo Fail >> ans1
+    fi
+  done
+fi
+cat ans1
+rm ans1
+
+1 asd 60
+2 ert 70
+3 jkm 20
+
+
+12.A file contains day_name & temperature for some days. Write a shell script
+which takes that file name as command line argument. Then it reads day_name
+& temperature from that file and broadcast the weather as follows. Store the
+weather report in a file.
+Temperature Weather
+<15 Very Cold
+>=15 && <25 Cold
+>=25 && <35 Hot
+>=35 Very hot
+
+
+clear
+file1=$1
+echo DAY TEMP WEATHER >> out2
+echo =================== >> out2
+if [ -f $file1 ]
+then
+  exec<$file1
+  while read line 
+  do
+    set `echo $line`
+      echo -n $1 " " $2 " " >> out2
+    if [ $2 -lt 15 ]
+      then
+        echo VERY COLD >> out2
+    elif [ $2 -lt 25 ]
+      then
+        echo COLD >> out2
+    elif [ $2 -lt 35 ]
+      then
+        echo HOT >> out2
+    else  
+      echo VERY HOT >> out2
+    fi
+  done
+fi
+cat out2
+rm out2
+
+1 35
+2 20
+3 15
+4 45
+

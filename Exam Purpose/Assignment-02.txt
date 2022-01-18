@@ -1,0 +1,134 @@
+2. Write a shell script to find the value of y using
+Y(x, n) = {1+x2 when n=1}
+{1+x/n when n=2}
+{1+2x when n=3}
+{1+nx when n>3 or n<1}
+
+
+clear
+read -p "Enter the value of x: " x
+read -p "Enter the value of n: " n
+case $n in
+1)res=`expr 1 + $x \* $x`;;
+2)res=`expr 1 + $x / $n`;;
+3)res=`expr 1 + $x \* 2`;;
+*)res=`expr 1 + $x \* $n`;;
+esac
+echo y = $res
+
+3. Take three sides of a triangle. Then check whether triangle is formable or not?
+If yes then find its area. Your program should be flexible for real number
+inputs.
+
+clear
+read -p "Enter the length of first side of triangle: " a
+read -p "Enter the length of second side of triangle: " b
+read -p "Enter the length of third side of triangle: " c
+s=`expr $[$a + $b +$c] / 2`
+temp=`expr $s \* $[$s-$a] \* $[$s-$b] \* $[$s-$c]`
+if [ `expr $a + $b` -gt $c ] && [ $temp -ge 1 ]
+then
+  area=`echo "scale=2; sqrt($temp)" | bc`
+  echo The area of the triangle is $area
+else
+  echo The triangle cannnot be formed using given sides
+fi
+
+
+
+4. Calculate the value of the following series
+f(x,n)=1+x2/2!+x4/4!+….+x2*n/(2*n)!
+Where x is the variable and n is the number of terms.
+
+clear
+read -p "Enter the value of x: " x
+read -p "Enter the value of n: " n
+fact=1
+sum=1
+for (( i=1; i<$n; i++ ))
+do
+  temp=`expr $i \* 2`
+  for (( j=1; j<=$temp; j++ ))
+  do
+    fact=`expr $fact \* $j`
+  done
+  sum=`expr $sum + $[$x**$temp] / $fact`
+  fact=1
+done
+echo y = $sum
+
+5. Determine grade as per following rules using switch case:
+Number Grade
+90 – 100 O
+80 – 89 E
+70 – 79 A
+60 – 69 B
+50 – 59 C
+< 50 F
+
+echo "Enter a Number: "
+read n
+if [ $n -gt 100 ]
+then
+    echo "The Entered Number is Invalid...Try Again!!!"
+    exit
+fi
+
+num=`expr $n / 10`
+case $num in
+5)echo "C";;
+6)echo "B";;
+7)echo "A";;
+8)echo "E";;
+9)echo "O";;
+10)echo "O";;
+*)echo "F";;
+esac
+
+6. Write a menu driven shell program to perform the following actions depending
+on number key:
+a) Contents of the file
+b) List of users who currently logged in
+c) Present working directory & files under current directory
+d) List of files
+e) Process of users
+f) Today’s date
+g) Display the calendar of any year
+h) Exit
+
+clear
+
+echo "Enter the name of the file";
+read filename;
+
+x=2;
+
+while [ $x ]
+do
+
+	echo "1. Print contents of the text"
+	echo "2. List of users who currently logged in"
+	echo "3. Present working directory and files under current directory"
+	echo "4. List of files"
+	echo "5. Process of users"
+	echo "6. Todays date"
+	echo "7. Display the calender of any year"
+	echo "8. Exit"
+	read m
+	case $m in
+		1) cat $filename;;
+		2) whoami;;
+		3) pwd && ls;;
+		4) ls -l;;
+		5) ps;;
+		6) date;;
+		7) cal;;
+		8) exit;;
+		*) echo "Wrong input";;
+	esac
+
+done
+
+echo "Program is exiting...."
+#cat $filename;
+

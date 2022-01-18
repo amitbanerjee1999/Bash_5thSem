@@ -1,0 +1,129 @@
+1. a) Write a shell script to check whether a year is leap year or not.
+
+# Leap Year
+clear
+echo "Enter a number: "
+read x
+if [ `expr $x % 400` -eq 0 ]
+then
+  echo "$x is a leap year"
+elif [ `expr $x % 100` -eq 0 ]
+then
+  echo "$x is not a leap year"
+elif [ `expr $x % 4` -eq 0 ] 
+then
+  echo "$x is a leap year"
+else
+  echo "$x is not a leap year"
+fi
+
+b) Write a shell script to find the GCD and LCM of two numbers.
+
+clear
+echo "Enter two intergers"
+read m n
+echo " To find GCD and LCM"
+echo "===================="
+echo "given two numbers are"
+echo "m= $m and n=$n"
+temp=`expr $m \* $n`
+while [ $m != $n ]
+do
+if [ $m -gt $n ]
+then
+m=`expr $m - $n`
+else
+n=`expr $n - $m`
+fi
+done
+echo GCD=$n
+lcm=`expr $temp / $n`
+echo LCM=$lcm
+
+
+c) Write a shell script to check whether an integer number is palindrome or not.
+
+# pallindrome Number
+echo "Enter the number"
+read n
+number=$n
+reverse=0
+while [ $n -gt 0 ]
+do
+rem=`expr $n % 10 `
+n=`expr $n / 10 `
+reverse=`expr $reverse \* 10 + $rem`
+done
+echo $reverse
+if [ $number -eq $reverse ]
+then
+    echo "It is a palindrome number"
+else
+	echo "It is not a palindrome number"
+fi
+
+d) Write a shell script to generate Fibonacci sequence up to a given range.
+
+# Fibanacci Series
+echo "Enter number you want to Enter: "
+read n
+x=0
+y=1
+for (( i=1 ; i<=$n ; i++ ))
+do
+  echo -n "$x "
+    z=`expr $x + $y`
+    x=$y
+    y=$z
+  echo ""   #it is used for newline
+done
+
+or
+
+clear
+echo "Enter the range: "
+read n
+echo "Fibonacci Series"
+echo "======================"
+a=0
+b=1
+for(( i=0;i<n;i++ ))
+do
+  echo -n "$a "
+  temp=$(( a + b ))
+  a=$b
+  b=$temp
+done
+
+e) Write a shell script to find all Armstrong numbers within a given range.
+
+clear
+echo "Enter the starting range"
+read i
+echo "Enter the ending range"
+read end 
+
+while [ $i -le $end ]
+do
+c=$i
+d=$i
+b=0
+a=0
+
+while [ $c -gt 0 ]
+do
+
+a=$((c%10))
+
+
+b=$((b + a*a*a))
+c=$((c/10))
+done
+
+if [ $b -eq $d ]
+then
+	echo "$i"
+fi
+
+i=$((i+1))
+done
